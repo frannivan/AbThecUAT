@@ -1,0 +1,79 @@
+{
+    "HEADER": {
+        "SOLUTIONS": "Soluciones",
+        "DEVELOPMENT": "Desarrollo",
+        "INDUSTRIES": "Industrias",
+        "CONTACT": "Contacto",
+        "LOGIN": "Acceso CRM"
+    },
+    "HERO": {
+        "TITLE_PREFIX": "Innovación Tecnológica",
+        "TITLE_SUFFIX": "para tu Empresa",
+        "SUBTITLE": "Consultoría de Software de Alto Nivel y Soluciones a Medida. Transformamos tus procesos con tecnología de punta, escalable y segura.",
+        "CTA_EXPLORE": "Explora Nuestras Soluciones",
+        "CTA_CONTACT": "Contáctanos",
+        "BADGE_TITLE": "Arquitectura Moderna",
+        "BADGE_SUBTITLE": "Angular + Spring Boot"
+    },
+    "SERVICES": {
+        "TITLE": "Nuestras Soluciones",
+        "SUBTITLE": "Ofrecemos soluciones integrales para potenciar tu negocio en la era digital.",
+        "CARD_1_TITLE": "Transformación Digital",
+        "CARD_1_DESC": "Moderniza tu infraestructura y procesos para competir en el mercado actual.",
+        "CARD_2_TITLE": "Desarrollo a Medida",
+        "CARD_2_DESC": "Software diseñado específicamente para las necesidades únicas de tu negocio.",
+        "CARD_3_TITLE": "Customer Experience",
+        "CARD_3_DESC": "Mejora la interacción con tus clientes a través de plataformas intuitivas."
+    },
+    "SYSTEMS": {
+        "TITLE": "Casos de Éxito",
+        "SUBTITLE": "Plataformas robustas desarrolladas para líderes de industria.",
+        "HEALTH": "SALUD",
+        "HEALTH_TITLE": "MediCore System",
+        "HEALTH_DESC": "Sistema integral para clínicas y consultorios. Gestión de citas, historial clínico electrónico y facturación médica.",
+        "SPORTS": "DEPORTES",
+        "SPORTS_TITLE": "LigaPro Manager",
+        "SPORTS_DESC": "Gestión administrativa de torneos deportivos. Registro de equipos, generación de roles de juego y tablas de resultados en tiempo real.",
+        "REAL_ESTATE": "BIENES RAÍCES",
+        "REAL_ESTATE_TITLE": "Estate CRM",
+        "REAL_ESTATE_DESC": "Plataforma para inmobiliarias. Control de inventario, seguimiento de leads, contratos automatizados y portal de clientes.",
+        "HR": "RECURSOS HUMANOS",
+        "HR_TITLE": "TalentFlow",
+        "HR_DESC": "Gestión de capital humano. Expedientes digitales, control de vacaciones, evaluación de desempeño y nómina."
+    },
+    "TECHNOLOGY": {
+        "TITLE": "Tecnología de Punta",
+        "SUBTITLE": "Utilizamos el stack tecnológico más robusto y moderno del mercado."
+    },
+    "WHY_ABTECH": {
+        "TITLE": "Por qué elegir AbTech",
+        "SUBTITLE": "Nuestro compromiso es con la calidad, la innovación y el éxito de nuestros clientes.",
+        "CARD_1_TITLE": "Velocidad y Eficiencia",
+        "CARD_1_DESC": "Entregamos software de alta calidad en tiempos récord gracias a nuestra metodología ágil.",
+        "CARD_2_TITLE": "Experiencia Comprobada",
+        "CARD_2_DESC": "Años de experiencia en múltiples industrias desarrollando sistemas críticos.",
+        "CARD_3_TITLE": "Soporte 24/7",
+        "CARD_3_DESC": "Nunca te dejamos solo. Nuestro equipo de soporte está siempre disponible para ti."
+    },
+    "CONTACT": {
+        "TITLE": "Contáctanos",
+        "SUBTITLE": "¿Tienes un proyecto en mente? Cuéntanos y lo hacemos realidad.",
+        "NAME": "Nombre Completo",
+        "EMAIL": "Correo Electrónico",
+        "INDUSTRY": "Industria",
+        "MESSAGE": "Tu Mensaje",
+        "BTN_SEND": "Enviar Mensaje",
+        "BTN_SENDING": "Enviando...",
+        "SUCCESS": "¡Gracias! Hemos recibido tu mensaje. Nos pondremos en contacto contigo pronto.",
+        "ERROR": "Error! Hubo un problema al enviar el mensaje. Por favor, inténtalo de nuevo."
+    },
+    "CHATBOT": {
+        "HEADER": "AbTech Bot",
+        "STATUS": "En línea",
+        "PLACEHOLDER": "Tu correo electrónico...",
+        "BTN_SOLUTIONS": "Ver Soluciones",
+        "BTN_QUOTE": "Cotización",
+        "BTN_HUMAN": "Hablar con Asesor",
+        "TOGGLE_TEXT": "¡Hablemos!"
+    }
+}

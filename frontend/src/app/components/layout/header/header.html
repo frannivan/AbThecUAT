@@ -1,0 +1,147 @@
+<nav class="bg-white fixed w-full z-30 top-0 left-0 border-b border-gray-200">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a routerLink="/" class="flex items-center">
+            <span class="self-center text-2xl font-bold whitespace-nowrap text-abtech-blue">AbTech</span>
+        </a>
+        <div class="flex md:order-2 items-center">
+            <!-- Language Switcher -->
+            <div class="flex items-center mr-4 space-x-2">
+                <button (click)="switchLanguage('es')" [class.opacity-50]="currentLang !== 'es'"
+                    class="w-6 h-6 rounded-full overflow-hidden border border-gray-200 hover:opacity-100 transition-opacity"
+                    title="Español">
+                    <img src="https://flagcdn.com/w40/mx.png" alt="Español" class="w-full h-full object-cover">
+                </button>
+                <button (click)="switchLanguage('en')" [class.opacity-50]="currentLang !== 'en'"
+                    class="w-6 h-6 rounded-full overflow-hidden border border-gray-200 hover:opacity-100 transition-opacity"
+                    title="English">
+                    <img src="https://flagcdn.com/w40/us.png" alt="English" class="w-full h-full object-cover">
+                </button>
+            </div>
+
+            <a routerLink="/login"
+                class="text-white bg-abtech-blue hover:bg-abtech-darkblue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 transition-colors duration-300">
+                {{ 'HEADER.LOGIN' | translate }}
+            </a>
+            <button (click)="toggleMenu()" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                aria-controls="navbar-sticky" [attr.aria-expanded]="isMenuOpen">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="items-center justify-between w-full md:flex md:w-auto md:order-1" [class.hidden]="!isMenuOpen"
+            id="navbar-sticky">
+            <ul
+                class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+
+                <!-- Soluciones Dropdown -->
+                <li class="relative group">
+                    <button (click)="toggleDropdown('soluciones')" (mouseenter)="toggleDropdown('soluciones')"
+                        class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-abtech-blue md:p-0 md:w-auto">
+                        {{ 'HEADER.SOLUTIONS' | translate }} <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div [class.hidden]="activeDropdown !== 'soluciones'" (mouseleave)="closeDropdown()"
+                        class="absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-72 mt-2 md:mt-4">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Transformación Digital</strong><span
+                                        class="text-xs text-gray-500 block">Transforma procesos con tecnología
+                                        moderna</span></a></li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Experiencia del Cliente</strong><span
+                                        class="text-xs text-gray-500 block">Soluciones digitales intuitivas</span></a>
+                            </li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Digitalización de Procesos</strong><span
+                                        class="text-xs text-gray-500 block">Automatización inteligente</span></a></li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Modernización Legacy</strong><span
+                                        class="text-xs text-gray-500 block">Migración y mejora de sistemas</span></a>
+                            </li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Desarrollo Personalizado</strong><span
+                                        class="text-xs text-gray-500 block">Software a la medida</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Desarrollo Dropdown -->
+                <li class="relative group">
+                    <button (click)="toggleDropdown('desarrollo')" (mouseenter)="toggleDropdown('desarrollo')"
+                        class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-abtech-blue md:p-0 md:w-auto">
+                        {{ 'HEADER.DEVELOPMENT' | translate }} <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <div [class.hidden]="activeDropdown !== 'desarrollo'" (mouseleave)="closeDropdown()"
+                        class="absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-2 md:mt-4">
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Desarrollo Web</strong><span
+                                        class="text-xs text-gray-500 block">Apps escalables y seguras</span></a></li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Desarrollo Móvil</strong><span
+                                        class="text-xs text-gray-500 block">Multiplataforma (iOS/Android)</span></a>
+                            </li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Nearshore Staffing</strong><span
+                                        class="text-xs text-gray-500 block">Talento especializado remoto</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- Industrias Dropdown -->
+                <li class="relative group">
+                    <button (click)="toggleDropdown('industrias')" (mouseenter)="toggleDropdown('industrias')"
+                        class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-abtech-blue md:p-0 md:w-auto">
+                        {{ 'HEADER.INDUSTRIES' | translate }} <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4" />
+                        </svg>
+                    </button>
+                    <div [class.hidden]="activeDropdown !== 'industrias'" (mouseleave)="closeDropdown()"
+                        class="absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-2 md:mt-4">
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Salud</strong><span
+                                        class="text-xs text-gray-500 block">Gestión clínica y médica</span></a></li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Deportes</strong><span
+                                        class="text-xs text-gray-500 block">Ligas, torneos y equipos</span></a></li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Bienes Raíces</strong><span
+                                        class="text-xs text-gray-500 block">Administración de propiedades</span></a>
+                            </li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Recursos Humanos</strong><span
+                                        class="text-xs text-gray-500 block">Procesos internos y empleados</span></a>
+                            </li>
+                            <li><a routerLink="/" class="block px-4 py-2 hover:bg-gray-100"><strong
+                                        class="block text-gray-900">Educación</strong><span
+                                        class="text-xs text-gray-500 block">Plataformas educativas</span></a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a routerLink="/" fragment="contact"
+                        class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-abtech-blue md:p-0 transition-colors">{{
+                        'HEADER.CONTACT' | translate }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

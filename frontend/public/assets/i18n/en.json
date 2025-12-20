@@ -1,0 +1,79 @@
+{
+    "HEADER": {
+        "SOLUTIONS": "Solutions",
+        "DEVELOPMENT": "Development",
+        "INDUSTRIES": "Industries",
+        "CONTACT": "Contact",
+        "LOGIN": "CRM Login"
+    },
+    "HERO": {
+        "TITLE_PREFIX": "Technological Innovation",
+        "TITLE_SUFFIX": "for your Business",
+        "SUBTITLE": "High-Level Software Consulting and Tailored Solutions. We transform your processes with cutting-edge, scalable, and secure technology.",
+        "CTA_EXPLORE": "Explore Our Solutions",
+        "CTA_CONTACT": "Contact Us",
+        "BADGE_TITLE": "Modern Architecture",
+        "BADGE_SUBTITLE": "Angular + Spring Boot"
+    },
+    "SERVICES": {
+        "TITLE": "Our Solutions",
+        "SUBTITLE": "We offer comprehensive solutions to empower your business in the digital age.",
+        "CARD_1_TITLE": "Digital Transformation",
+        "CARD_1_DESC": "Modernize your infrastructure and processes to compete in today's market.",
+        "CARD_2_TITLE": "Tailored Development",
+        "CARD_2_DESC": "Software designed specifically for the unique needs of your business.",
+        "CARD_3_TITLE": "Customer Experience",
+        "CARD_3_DESC": "Improve interaction with your clients through intuitive platforms."
+    },
+    "SYSTEMS": {
+        "TITLE": "Success Stories",
+        "SUBTITLE": "Robust platforms developed for industry leaders.",
+        "HEALTH": "HEALTH",
+        "HEALTH_TITLE": "MediCore System",
+        "HEALTH_DESC": "Comprehensive system for clinics and offices. Appointment management, electronic medical records, and medical billing.",
+        "SPORTS": "SPORTS",
+        "SPORTS_TITLE": "LigaPro Manager",
+        "SPORTS_DESC": "Administrative management of sports tournaments. Team registration, game schedule generation, and real-time standings.",
+        "REAL_ESTATE": "REAL ESTATE",
+        "REAL_ESTATE_TITLE": "Estate CRM",
+        "REAL_ESTATE_DESC": "Platform for real estate agencies. Inventory control, lead tracking, automated contracts, and client portal.",
+        "HR": "HUMAN RESOURCES",
+        "HR_TITLE": "TalentFlow",
+        "HR_DESC": "Human capital management. Digital records, vacation control, performance evaluation, and payroll."
+    },
+    "TECHNOLOGY": {
+        "TITLE": "Cutting-Edge Technology",
+        "SUBTITLE": "We use the most robust and modern technology stack on the market."
+    },
+    "WHY_ABTECH": {
+        "TITLE": "Why Choose AbTech",
+        "SUBTITLE": "Our commitment is to quality, innovation, and our clients' success.",
+        "CARD_1_TITLE": "Speed and Efficiency",
+        "CARD_1_DESC": "We deliver high-quality software in record time thanks to our agile methodology.",
+        "CARD_2_TITLE": "Proven Experience",
+        "CARD_2_DESC": "Years of experience across multiple industries developing critical systems.",
+        "CARD_3_TITLE": "24/7 Support",
+        "CARD_3_DESC": "We never leave you alone. Our support team is always available for you."
+    },
+    "CONTACT": {
+        "TITLE": "Contact Us",
+        "SUBTITLE": "Have a project in mind? Tell us about it and we'll make it happen.",
+        "NAME": "Full Name",
+        "EMAIL": "Email Address",
+        "INDUSTRY": "Industry",
+        "MESSAGE": "Your Message",
+        "BTN_SEND": "Send Message",
+        "BTN_SENDING": "Sending...",
+        "SUCCESS": "Thank you! We have received your message. We will be in touch shortly.",
+        "ERROR": "Error! There was a problem sending the message. Please try again."
+    },
+    "CHATBOT": {
+        "HEADER": "AbTech Bot",
+        "STATUS": "Online",
+        "PLACEHOLDER": "Your email address...",
+        "BTN_SOLUTIONS": "View Solutions",
+        "BTN_QUOTE": "Get Quote",
+        "BTN_HUMAN": "Talk to Advisor",
+        "TOGGLE_TEXT": "Let's Chat!"
+    }
+}

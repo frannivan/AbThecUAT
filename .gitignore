@@ -1,0 +1,36 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.metadata/
+.project
+.settings/
+.classpath
+.factorypath
+.springBeans
+.sts4-cache/
+.vscode/
+*.swp
+*.swo
+*.tmp
+
+# Build directories
+target/
+bin/
+build/
+dist/
+.angular/
+
+# Dependencies
+node_modules/
+
+# Database
+backend/data/
+
+# Logs
+*.log
+
+# Other
+temp/
+tmp/

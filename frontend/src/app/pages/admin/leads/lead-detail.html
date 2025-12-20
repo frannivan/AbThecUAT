@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-gray-50 dark:bg-slate-900 p-4 sm:p-6 lg:p-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Detalle de Lead</h1>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-400">Información completa enviada por el contacto.</p>
+        </div>
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            <a routerLink="/admin/leads"
+                class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">
+                Volver a la Lista
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading()" class="mt-8 text-center text-gray-500">
+        Cargando detalles...
+    </div>
+
+    <div *ngIf="lead() && !isLoading()" class="mt-8 bg-white dark:bg-slate-800 shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">Información del Cliente
+                    Potential</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Detalles personales y de contacto.
+                </p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button *ngIf="lead().status === 'QUALIFIED'" (click)="convertToClient()"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Convertir a Cliente
+                </button>
+                <span
+                    [class]="'inline-flex rounded-full px-3 py-1 text-sm font-semibold leading-5 ' + getStatusColor(lead().status)">
+                    {{ lead().status }}
+                </span>
+            </div>
+        </div>
+        <div class="border-t border-gray-200 dark:border-gray-700">
+            <dl>
+                <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nombre Completo</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().name }}</dd>
+                </div>
+                <div class="bg-white dark:bg-slate-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Correo Electrónico</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().email }}</dd>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Industria</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().industry }}
+                    </dd>
+                </div>
+                <div class="bg-white dark:bg-slate-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Mensaje / Requerimientos</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2 whitespace-pre-wrap">{{
+                        lead().message || 'Sin mensaje' }}</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>
