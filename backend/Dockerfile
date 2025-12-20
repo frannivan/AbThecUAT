@@ -2,18 +2,14 @@
 FROM eclipse-temurin:11-jdk-focal AS build
 WORKDIR /app
 
-# Copy Maven wrapper files
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+# Copy ALL files from the backend directory to the container
+# (Considering Root Directory is set to 'backend' in Render)
+COPY . .
 
-# Give execution permission to the wrapper
-RUN chmod +x mvnw
+# Ensure mvnw has execution permissions and correct line endings
+RUN tr -d '\r' < mvnw > mvnw.sh && mv mvnw.sh mvnw && chmod +x mvnw
 
-# Download dependencies (this layer will be cached)
-RUN ./mvnw dependency:go-offline
-
-# Copy source code and build
-COPY src ./src
+# Build the application
 RUN ./mvnw clean package -DskipTests
 
 # Run stage
