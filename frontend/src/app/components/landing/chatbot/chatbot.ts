@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LeadService } from '../../../services/lead';
@@ -11,17 +11,18 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.css',
 })
-export class Chatbot {
-  // ... existing logic but no changes needed other than imports
+export class Chatbot implements AfterViewChecked {
   private fb = inject(FormBuilder);
   private leadService = inject(LeadService);
 
-  isOpen = false;
-  isEmailCaptured = false;
+  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+
+  isOpen = signal(false);
+  isEmailCaptured = signal(false);
   emailForm: FormGroup;
-  messages: { text: string; sender: 'user' | 'bot' }[] = [
+  messages = signal<{ text: string; sender: 'user' | 'bot' }[]>([
     { text: 'Hola, bienvenido a AbTech. ¿En qué podemos ayudarte?', sender: 'bot' }
-  ];
+  ]);
 
   constructor() {
     this.emailForm = this.fb.group({
@@ -29,8 +30,18 @@ export class Chatbot {
     });
   }
 
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    }
+  }
+
   toggleChat() {
-    this.isOpen = !this.isOpen;
+    this.isOpen.update(v => !v);
   }
 
   submitEmail() {
@@ -41,15 +52,16 @@ export class Chatbot {
         email: email,
         industry: 'Unknown',
         message: 'Lead captured via chatbot'
-      }).subscribe({ // Fire and forget for UX speed
+      }).subscribe({
         next: () => console.log('Lead captured'),
         error: (err) => console.error('Lead capture failed', err)
       });
 
-      this.messages.push({ text: email, sender: 'user' });
-      this.isEmailCaptured = true;
+      this.messages.update(m => [...m, { text: email, sender: 'user' }]);
+      this.isEmailCaptured.set(true);
+
       setTimeout(() => {
-        this.messages.push({ text: '¡Gracias! ¿Qué información estás buscando hoy?', sender: 'bot' });
+        this.messages.update(m => [...m, { text: '¡Gracias! ¿Qué información estás buscando hoy?', sender: 'bot' }]);
       }, 500);
 
       this.emailForm.reset();
@@ -57,14 +69,14 @@ export class Chatbot {
   }
 
   selectOption(option: string) {
-    this.messages.push({ text: option, sender: 'user' });
+    this.messages.update(m => [...m, { text: option, sender: 'user' }]);
     setTimeout(() => {
       let response = '';
       if (option === 'Ver Soluciones') response = 'Puedes explorar nuestras soluciones en la sección de Servicios.';
       else if (option === 'Solicitar Cotización') response = 'Claro, déjanos tus datos en el formulario de contacto y te enviaremos una propuesta.';
       else if (option === 'Hablar con Humano') response = 'Un asesor te contactará pronto al correo proporcionado.';
 
-      this.messages.push({ text: response, sender: 'bot' });
+      this.messages.update(m => [...m, { text: response, sender: 'bot' }]);
     }, 600);
   }
 }

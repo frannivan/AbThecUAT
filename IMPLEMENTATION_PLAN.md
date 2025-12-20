@@ -34,7 +34,13 @@
 - [ ] **SEO Optimization**: Meta tags, titles, and dynamic descriptions.
 - [ ] **Sitemap & Robots**: Generation for better indexing.
 
-## Phase 7: Despliegue (Staging)
-- [ ] **Frontend**: Deploy to Vercel or Netlify.
-- [ ] **Backend**: Deploy to Render, Railway, or Koyeb.
-- [ ] **Dockerize**: Configuration for repeatable deployments.
+## Phase 7: Deployment (Staging) [COMPLETE]
+
+Summary of deployment to Vercel (Frontend) and Render/Neon (Backend/DB).
+
+## Phase 8: Bug Fixes & UX Polishing [IN PROGRESS]
+
+### Chatbot Responsiveness
+- [ ] Migrate `messages`, `isOpen`, and `isEmailCaptured` to Angular Signals.
+- [ ] Implement auto-scroll to bottom on new messages.
+```
