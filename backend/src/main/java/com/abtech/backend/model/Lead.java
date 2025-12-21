@@ -38,6 +38,9 @@ public class Lead {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Column(name = "app_id")
+    private String appId;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -52,6 +55,22 @@ public class Lead {
         this.industry = industry;
         this.source = source;
         this.status = ELeadStatus.NEW;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public Lead(String name, String fullName, String phone, String email, String message, String industry,

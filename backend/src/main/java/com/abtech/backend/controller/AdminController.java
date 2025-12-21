@@ -25,10 +25,11 @@ public class AdminController {
     private ClientService clientService;
 
     @GetMapping("/leads")
-    public List<Lead> getAllLeads() {
-        List<Lead> leads = leadService.getAllLeads();
+    public List<Lead> getAllLeads(@RequestHeader(value = "X-App-ID", required = false) String appId) {
+        List<Lead> leads = leadService.getAllLeads(appId);
         System.out.println(
-                ">>> DEBUG: getAllLeads called. Found: " + (leads != null ? leads.size() : "null") + " leads.");
+                ">>> DEBUG: getAllLeads called for AppID: " + appId + ". Found: "
+                        + (leads != null ? leads.size() : "null") + " leads.");
         return leads;
     }
 
@@ -44,16 +45,16 @@ public class AdminController {
     }
 
     @GetMapping("/leads/recent")
-    public List<Lead> getRecentLeads() {
-        return leadService.getRecentLeads(5);
+    public List<Lead> getRecentLeads(@RequestHeader(value = "X-App-ID", required = false) String appId) {
+        return leadService.getRecentLeads(5, appId);
     }
 
     @GetMapping("/dashboard/stats")
-    public ResponseEntity<?> getDashboardStats() {
-        long totalLeads = leadService.countLeads();
-        long newLeads = leadService.countNewLeads();
-        long opportunities = leadService.countQualifiedLeads();
-        long totalClients = clientService.countClients();
+    public ResponseEntity<?> getDashboardStats(@RequestHeader(value = "X-App-ID", required = false) String appId) {
+        long totalLeads = leadService.countLeads(appId);
+        long newLeads = leadService.countNewLeads(appId);
+        long opportunities = leadService.countQualifiedLeads(appId);
+        long totalClients = clientService.countClients(); // Clients might need separation too later
         return ResponseEntity.ok(new DashboardStats(totalLeads, newLeads, opportunities, totalClients));
     }
 
