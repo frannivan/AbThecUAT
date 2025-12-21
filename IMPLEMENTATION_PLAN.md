@@ -1,46 +1,33 @@
-# Plan de Implementación Simplificado - AbTech
+# Plan de Implementación AbTech - Estado Final
 
-## Phase 1: Configuración Inicial (Completado)
-- [x] Backend Setup (Spring Boot 2.7, JWT, H2).
+## Fase 1: Configuración Inicial [COMPLETADO]
+- [x] Backend Setup (Spring Boot 2.7, Java 11).
 - [x] Frontend Setup (Angular 17, TailwindCSS).
-- [x] Deployment Mockup.
+- [x] Repositorio Git optimizado (Exclusión de metadatos y H2).
 
-## Phase 2: Sitio Público (Completado)
+## Fase 2: Sitio Público [COMPLETADO]
 - [x] Header/Footer Responsive.
-- [x] Landing Page Sections (Hero, Services, Systems).
-- [x] Contact Form & API Integration.
-- [x] Chatbot Widget.
+- [x] Secciones: Hero, Soluciones, Sistemas, Contacto.
+- [x] Integración de Captura de Leads.
+- [x] Chatbot con Angular Signals y Auto-scroll.
 
-## Phase 3: Internationalization (Completado)
-- [x] Install `ngx-translate`.
-- [x] Configure `TranslateModule`.
-- [x] Create JSON assets.
-- [x] Implement Language Switcher.
-- [x] Translate Main Landing Page components.
+## Fase 3: Internationalization [COMPLETADO]
+- [x] Configuración de `ngx-translate`.
+- [x] Traducción completa (ES/EN).
+- [x] Selector de idioma funcional.
 
-## Phase 4: CRM Core & Funnel (Completado)
-- [x] **Leads Module**: Capture, List, Detail.
-- [x] **Opportunities Module**: Dedicated view for qualified leads.
-- [x] **Clients Module**: Automated conversion (Lead -> Client).
-- [x] **Dashboard Base**: Key metrics.
+## Fase 4: CRM Core & Funnel [COMPLETADO]
+- [x] Módulos de Leads, Oportunidades y Clientes.
+- [x] Lógica de Conversión Automatizada.
+- [x] Dashboard con métricas clave y bandeja de entrada.
 
-## Phase 5: Notifications & Dashboard Inbox (Current)
-- [x] **Dashboard Inbox**: Recent messages list with quick actions.
-- [ ] **Email Notifications**: SMTP setup and automated alerts.
-- [ ] **SEO & Performance**: Meta tags and build optimization.
+## Fase 5: Despliegue (UAT) [COMPLETADO]
+- [x] **Base de Datos**: Neon PostgreSQL con configuración SSL.
+- [x] **Backend**: Render con Docker (Imagen eclipse-temurin:11).
+- [x] **Frontend**: Vercel con proxy inverso configurado en `vercel.json`.
+- [x] **Manejo de Perfiles**: Spring Profiles (`default` para local, `uat` para la nube).
 
-## Phase 6: Migración de Base de Datos & SEO
-- [ ] **DB Migration**: Switch from H2 to PostgreSQL (e.g., Neon or Supabase).
-- [ ] **SEO Optimization**: Meta tags, titles, and dynamic descriptions.
-- [ ] **Sitemap & Robots**: Generation for better indexing.
-
-## Phase 7: Deployment (Staging) [COMPLETE]
-
-Summary of deployment to Vercel (Frontend) and Render/Neon (Backend/DB).
-
-## Phase 8: Bug Fixes & UX Polishing [IN PROGRESS]
-
-### Chatbot Responsiveness
-- [ ] Migrate `messages`, `isOpen`, and `isEmailCaptured` to Angular Signals.
-- [ ] Implement auto-scroll to bottom on new messages.
-```
+## Fase 6: Documentación [COMPLETADO]
+- [x] Manual Técnico actualizado.
+- [x] Manual de Usuario detallado con guía de despliegue.
+- [x] Plan de Implementación finalizado.
