@@ -23,7 +23,11 @@ export class InteractiveGrid implements OnInit {
     handleTouch(event: TouchEvent) {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        // We don't prevent default here to allow scrolling, but users can "scratch" while scrolling
+        // Prevent default to stop scrolling
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+
         const touch = event.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
 
