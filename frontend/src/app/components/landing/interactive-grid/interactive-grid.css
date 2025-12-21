@@ -34,4 +34,6 @@
 .grid-cell:hover {
     /* Fast reaction when mouse enters */
     transition: background-color 0s, opacity 0s;
+    background-color: transparent;
+    opacity: 0;
 }

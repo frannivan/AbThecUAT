@@ -70,6 +70,14 @@ export class Header {
     }
   }
 
+  // Mobile Fix: Only allow hover-open on desktop to avoid conflict with tap-click
+  openDropdown(name: string) {
+    if (window.innerWidth > 768) {
+      this.cancelCloseDropdown();
+      this.activeDropdown = name;
+    }
+  }
+
   closeDropdown() {
     this.activeDropdown = null;
   }

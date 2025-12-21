@@ -9,37 +9,43 @@ import { CommonModule } from '@angular/common';
     styleUrl: './interactive-grid.css',
 })
 export class InteractiveGrid implements OnInit {
-    // Use a smaller grid for "bigger" cells as requested
-    gridSize = 144; // 12x12
+    // 12x12 grid = 144 cells
+    gridSize = 144;
     cells = signal<number[]>([]);
 
     ngOnInit() {
         this.cells.set(Array.from({ length: this.gridSize }, (_, i) => i));
     }
 
-    handleHover(event: MouseEvent) {
-        const target = event.target as HTMLElement;
-        if (target.classList.contains('grid-cell')) {
-            // Apply a transition color and reduce opacity to reveal background
-            target.style.backgroundColor = this.getRandomRevealColor();
-            target.style.opacity = '0.3';
+    // Mobile Touch Support
+    handleTouch(event: TouchEvent) {
+        // We don't prevent default here to allow scrolling, but users can "scratch" while scrolling
+        const touch = event.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
 
-            setTimeout(() => {
-                // Clear inline styles to revert to CSS defaults (Dark Gray)
-                target.style.backgroundColor = '';
-                target.style.opacity = '';
-            }, 50);
+        if (element && element.id.startsWith('cell-')) {
+            const id = parseInt(element.id.split('-')[1], 10);
+            if (!isNaN(id)) {
+                this.triggerReveal(id);
+            }
         }
     }
 
-    private getRandomRevealColor(): string {
-        const colors = [
-            'rgba(16, 185, 129, 0.8)', // emerald
-            'rgba(59, 130, 246, 0.8)', // blue
-            'rgba(99, 102, 241, 0.8)', // indigo
-            'rgba(139, 92, 246, 0.8)', // violet
-            'rgba(6, 182, 212, 0.8)',  // cyan
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
+    private triggerReveal(index: number) {
+        const cell = document.getElementById(`cell-${index}`);
+        if (cell) {
+            // Instant reveal (mimic CSS :hover state)
+            cell.style.transition = 'none';
+            cell.style.backgroundColor = 'transparent';
+            cell.style.opacity = '0';
+
+            // Revert to CSS class transition after a tiny delay
+            setTimeout(() => {
+                // Clearing inline styles lets the CSS class styles (transition: 15s) take over
+                cell.style.transition = '';
+                cell.style.backgroundColor = '';
+                cell.style.opacity = '';
+            }, 50);
+        }
     }
 }

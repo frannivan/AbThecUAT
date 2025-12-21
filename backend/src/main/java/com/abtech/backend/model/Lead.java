@@ -35,6 +35,9 @@ public class Lead {
     @Enumerated(EnumType.STRING)
     private ELeadStatus status;
 
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

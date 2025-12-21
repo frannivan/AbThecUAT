@@ -87,7 +87,16 @@ public class LeadService {
     public List<Lead> getRecentLeads(int limit) {
         // Simple manual limiting for now, or could use Pageable
         List<Lead> all = leadRepository.findAll();
-        all.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        // Safe sort handling nulls
+        all.sort((a, b) -> {
+            if (a.getCreatedAt() == null && b.getCreatedAt() == null)
+                return 0;
+            if (a.getCreatedAt() == null)
+                return 1;
+            if (b.getCreatedAt() == null)
+                return -1;
+            return b.getCreatedAt().compareTo(a.getCreatedAt());
+        });
         return all.stream().limit(limit).collect(java.util.stream.Collectors.toList());
     }
 
@@ -105,6 +114,14 @@ public class LeadService {
             lead.setIndustry(details.getIndustry());
         if (details.getMessage() != null)
             lead.setMessage(details.getMessage());
+        if (details.getNotes() != null)
+            lead.setNotes(details.getNotes());
+
+        // Handle Status Change if provided and different
+        if (details.getStatus() != null && details.getStatus() != lead.getStatus()) {
+            return this.updateStatus(id, details.getStatus());
+        }
+
         return leadRepository.save(lead);
     }
 }
