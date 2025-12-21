@@ -9,9 +9,43 @@ Este documento detalla la arquitectura, tecnologías y configuración del sistem
   - **HTTP Management**: Angular HttpClient (Fetch API)
   - **Internationalization (i18n)**: `@ngx-translate/core` with JSON loaders (ES/EN).
 - **Backend**: Spring Boot 2.7.18 (Java 11 compatible)
-- **Base de Datos**: H2 (Memoria/Archivo)
+- **Base de Datos**: 
+  - **Local**: H2 (Memoria/Archivo)
+  - **Pruebas (UAT)**: PostgreSQL (Neon.tech) con SSL
 - **Autenticación**: JWT (JSON Web Tokens)
 - **Seguridad**: Spring Security
+
+## Infraestructura y Despliegue (Cloud)
+
+El sistema utiliza una arquitectura distribuida en la nube para el entorno de pruebas (UAT).
+
+### 1. Base de Datos (Neon)
+- **Proveedor**: Neon.tech (Serverless PostgreSQL).
+- **Configuración de Seguridad**: Conexión obligatoria vía SSL (`sslmode=require`).
+- **Persistencia**: Manejada mediante esquemas automáticos de JPA Hibernate (`ddl-auto: update`).
+
+### 2. Backend (Render)
+- **Tecnología**: Contenedor Docker (Dockerización propia).
+- **Entorno**: Java 11 (Eclipse Temurin).
+- **Gestión de Entornos**: Uso de **Spring Profiles**. 
+  - El perfil activo en Render es `uat`, el cual carga el archivo `application-uat.properties`.
+  - Este perfil sobrescribe la configuración de H2 para apuntar a la base de datos de Neon mediante variables de entorno (`DB_URL`, `DB_USER`, `DB_PASSWORD`).
+- **Exposición**: El servicio corre en el puerto `8080` (mapeado dinámicamente por Render).
+
+### 3. Frontend (Vercel)
+- **Tecnología**: Angular Static Web Hosting.
+- **Configuración de Compilación**:
+  - `Root Directory`: `frontend`
+  - `Output Directory`: `dist/browser`
+- **Proxy Inverso (Vercel Core)**: Se utiliza el motor de Vercel (`vercel.json`) para actuar como puente (Reverse Proxy).
+  - Cualquier petición a `/api/*` es capturada por Vercel y redirigida a la URL del backend en Render. 
+  - Esto evita problemas de CORS y permite que el frontend no tenga URLs hardcoreadas en el código TypeScript.
+
+## Pipeline de CI/CD
+El despliegue es automático (Continuous Deployment) mediante GitHub:
+1.  **Push a `main`**: Dispara los Webhooks de Vercel y Render.
+2.  **Build (Docker/Angular)**: Se generan los artefactos de producción (`.jar` y archivos estáticos).
+3.  **Zero-Downtime Deploy**: Las plataformas reemplazan las versiones anteriores solo después de que el nuevo Build sea exitoso.
 
 ## Implementación de Internacionalización (i18n)
 El sistema utiliza **ngx-translate** para el manejo dinámico de idiomas (Español/Inglés).
