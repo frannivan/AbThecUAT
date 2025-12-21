@@ -57,7 +57,7 @@ La aplicación Angular está desplegada en **Vercel** con integración continua 
 - **Configuración de Proyecto**:
     - **Root Directory**: `frontend`
     - **Fruit Preset**: Angular
-    - **Output Directory**: `dist/browser` (Configuración manual necesaria en Vercel Settings).
+    - **Output Directory**: `dist/frontend/browser` (Configuración manual necesaria en Vercel Settings).
 - **Enrutamiento SPA**: El archivo `vercel.json` gestiona que todas las rutas internas de Angular redirijan al `index.html` para evitar errores 404.
 - **Proxy de API**: `vercel.json` tiene configurado un "rewrite" para que todas las llamadas a `/api/*` se redirijan automáticamente a la URL del backend en Render (`https://abthecuat.onrender.com/api/*`).
 
