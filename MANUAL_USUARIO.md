@@ -34,3 +34,34 @@ Proporciona una vista rápida de la salud del negocio:
 - **Total de Leads**: Volumen total de prospectos (con conteo de los que aún no se leen).
 - **Oportunidades**: Cuántos negocios están en etapa de calificación.
 - **Total Clientes**: Cuántas conversiones exitosas se han logrado.
+
+## Guía de Despliegue y Configuración
+
+Esta sección detalla los pasos técnicos realizados para poner la plataforma en línea en un entorno de pruebas (UAT).
+
+### 1. Base de Datos (Neon PostgreSQL)
+Se utiliza **Neon.tech** para hospedar la base de datos PostgreSQL de manera gratuita y escalable.
+- **Configuración local/UAT**: Los datos de conexión están definidos en `src/main/resources/application-uat.properties`.
+- **Acceso**: Host, Usuario y Contraseña se manejan mediante variables de entorno para mayor seguridad.
+
+### 2. Backend (Render con Docker)
+El servidor Spring Boot está desplegado en **Render.com** utilizando un contenedor Docker.
+- **Dockerfile**: Ubicado en `/backend/Dockerfile`. Utiliza la imagen `eclipse-temurin:11` para garantizar compatibilidad.
+- **Variables de Entorno Cruciales**:
+    - `SPRING_PROFILES_ACTIVE`: Se debe establecer en `uat` para que el backend use la base de datos Neon en lugar de la local H2.
+    - `DB_URL`/`DB_USER`/`DB_PASSWORD`: Datos de conexión a Neon.
+- **Comando de Inicio**: Gestionado automáticamente por el Dockerfile (`ENTRYPOINT ["java", "-jar", "app.jar"]`).
+
+### 3. Frontend (Vercel)
+La aplicación Angular está desplegada en **Vercel** con integración continua desde GitHub.
+- **Configuración de Proyecto**:
+    - **Root Directory**: `frontend`
+    - **Fruit Preset**: Angular
+    - **Output Directory**: `dist/browser` (Configuración manual necesaria en Vercel Settings).
+- **Enrutamiento SPA**: El archivo `vercel.json` gestiona que todas las rutas internas de Angular redirijan al `index.html` para evitar errores 404.
+- **Proxy de API**: `vercel.json` tiene configurado un "rewrite" para que todas las llamadas a `/api/*` se redirijan automáticamente a la URL del backend en Render (`https://abthecuat.onrender.com/api/*`).
+
+### 4. Flujo de Actualización
+Cualquier cambio subido a la rama `main` de GitHub disparará automáticamente:
+1.  Un nuevo "Build" y "Deploy" en Vercel para el Frontend.
+2.  Un nuevo "Build" del contenedor Docker y despliegue en Render para el Backend.
