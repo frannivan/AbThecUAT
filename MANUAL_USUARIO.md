@@ -60,6 +60,17 @@ La aplicación Angular está desplegada en **Vercel** con integración continua 
     - **Output Directory**: `dist/frontend/browser` (Configuración manual necesaria en Vercel Settings).
 - **Enrutamiento SPA**: El archivo `vercel.json` gestiona que todas las rutas internas de Angular redirijan al `index.html` para evitar errores 404.
 - **Proxy de API**: `vercel.json` tiene configurado un "rewrite" para que todas las llamadas a `/api/*` se redirijan automáticamente a la URL del backend en Render (`https://abthecuat.onrender.com/api/*`).
+- **URL Oficial UAT**: `https://ab-thec-uat-7ioo.vercel.app/`
+
+### 4. Configuración Detallada en Vercel
+Para asegurar que el despliegue funcione correctamente, se deben seguir estos pasos en el dashboard de Vercel:
+
+1. **Framework Preset**: Angular.
+2. **Root Directory**: `frontend`.
+3. **Build Command**: `npm run build`.
+4. **Output Directory**: `dist/frontend/browser` (Es crucial activar el toggle de "Override" y escribir esta ruta manualmente).
+5. **Install Command**: `npm install`.
+6. **Environment Variables**: No se requieren variables en el frontend ya que la conexión se maneja vía proxy en `vercel.json`.
 
 ### 4. Flujo de Actualización
 Cualquier cambio subido a la rama `main` de GitHub disparará automáticamente:
