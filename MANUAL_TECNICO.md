@@ -95,8 +95,23 @@ El sistema sigue una arquitectura de API REST monolítica modularizada.
    ```bash
    cd backend
    ./mvnw clean install
-   ./mvnw spring-boot:run
    ```
+
+### Manejo de Perfiles con Maven
+Para ejecutar el backend con un perfil específico (por ejemplo, para conectar a la base de datos de producción desde local):
+
+- **Perfil Local (H2)**:
+  ```bash
+  ./mvnw spring-boot:run
+  ```
+- **Perfil UAT (PostgreSQL/Neon)**:
+  ```bash
+  ./mvnw spring-boot:run -Dspring-boot.run.profiles=uat
+  ```
+
+*Nota: También es posible pasar el parámetro de sistema genérico:*
+`./mvnw spring-boot:run -Dspring.profiles.active=uat`
+
 3. Frontend:
    ```bash
    cd frontend
