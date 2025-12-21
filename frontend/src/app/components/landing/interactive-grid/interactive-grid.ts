@@ -1,5 +1,5 @@
-import { Component, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'app-interactive-grid',
@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
     styleUrl: './interactive-grid.css',
 })
 export class InteractiveGrid implements OnInit {
+    private platformId = inject(PLATFORM_ID);
+
     // 12x12 grid = 144 cells
     gridSize = 144;
     cells = signal<number[]>([]);
@@ -19,6 +21,8 @@ export class InteractiveGrid implements OnInit {
 
     // Mobile Touch Support
     handleTouch(event: TouchEvent) {
+        if (!isPlatformBrowser(this.platformId)) return;
+
         // We don't prevent default here to allow scrolling, but users can "scratch" while scrolling
         const touch = event.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -32,6 +36,8 @@ export class InteractiveGrid implements OnInit {
     }
 
     private triggerReveal(index: number) {
+        if (!isPlatformBrowser(this.platformId)) return;
+
         const cell = document.getElementById(`cell-${index}`);
         if (cell) {
             // Instant reveal (mimic CSS :hover state)

@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -12,6 +12,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 })
 export class Header {
   private translate = inject(TranslateService);
+  private platformId = inject(PLATFORM_ID);
 
   isMenuOpen = false;
   activeDropdown: string | null = null;
@@ -26,18 +27,21 @@ export class Header {
 
   // Theme Logic
   initTheme() {
+    if (!isPlatformBrowser(this.platformId)) return;
     const savedTheme = localStorage.getItem('theme') || 'auto';
     this.setTheme(savedTheme, false);
   }
 
   setTheme(theme: string, save = true) {
     this.currentTheme = theme;
-    if (save) localStorage.setItem('theme', theme);
+    if (isPlatformBrowser(this.platformId)) {
+      if (save) localStorage.setItem('theme', theme);
 
-    if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+      if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   }
 
@@ -72,7 +76,7 @@ export class Header {
 
   // Mobile Fix: Only allow hover-open on desktop to avoid conflict with tap-click
   openDropdown(name: string) {
-    if (window.innerWidth > 768) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth > 768) {
       this.cancelCloseDropdown();
       this.activeDropdown = name;
     }
