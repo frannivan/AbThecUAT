@@ -14,11 +14,6 @@ public class PublicController {
     @Autowired
     private LeadService leadService;
 
-    @GetMapping("/health")
-    public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("AbTech API is running correctly!");
-    }
-
     @PostMapping("/contact")
     public ResponseEntity<?> submitContactForm(@RequestBody Lead leadRequest) {
         // Enforce source if missing
