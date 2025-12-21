@@ -6,12 +6,13 @@ import { Technology } from '../../components/landing/technology/technology';
 import { Contact } from '../../components/landing/contact/contact';
 import { WhyAbtech } from '../../components/landing/why-abtech/why-abtech';
 import { Chatbot } from '../../components/landing/chatbot/chatbot';
+import { InteractiveGrid } from '../../components/landing/interactive-grid/interactive-grid';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [RouterLink, Services, SystemsCarousel, Technology, Contact, WhyAbtech, Chatbot, TranslateModule],
+  imports: [RouterLink, Services, SystemsCarousel, Technology, Contact, WhyAbtech, Chatbot, InteractiveGrid, TranslateModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

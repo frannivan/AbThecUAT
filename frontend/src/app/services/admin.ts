@@ -56,6 +56,10 @@ export class AdminService {
         return this.http.post<any>(`${this.apiUrl}/leads/${id}/convert`, {}, { headers: this.getHeaders() });
     }
 
+    updateLead(id: number, data: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/leads/${id}`, data, { headers: this.getHeaders() });
+    }
+
     getRecentLeads(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/leads/recent`, { headers: this.getHeaders() });
     }

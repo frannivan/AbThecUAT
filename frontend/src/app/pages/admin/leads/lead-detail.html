@@ -25,7 +25,15 @@
                 </p>
             </div>
             <div class="flex items-center space-x-4">
-                <button *ngIf="lead().status === 'QUALIFIED'" (click)="convertToClient()"
+                <button (click)="toggleEdit()"
+                    class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 text-sm font-medium rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                    {{ isEditing() ? 'Cancelar' : 'Editar' }}
+                </button>
+                <button *ngIf="isEditing()" (click)="saveChanges()"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                    Guardar Cambios
+                </button>
+                <button *ngIf="lead().status === 'QUALIFIED' && !isEditing()" (click)="convertToClient()"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     Convertir a Cliente
                 </button>
@@ -37,23 +45,68 @@
         </div>
         <div class="border-t border-gray-200 dark:border-gray-700">
             <dl>
+                <!-- Nombre / Empresa -->
                 <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nombre Completo</dt>
-                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().name }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nombre / Empresa</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <input *ngIf="isEditing()" [(ngModel)]="editForm().name"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm">
+                        <span *ngIf="!isEditing()">{{ lead().name }}</span>
+                    </dd>
                 </div>
+                <!-- Nombre Completo -->
                 <div class="bg-white dark:bg-slate-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Correo Electrónico</dt>
-                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().email }}</dd>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Nombre Completo</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <input *ngIf="isEditing()" [(ngModel)]="editForm().fullName"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm">
+                        <span *ngIf="!isEditing()">{{ lead().fullName || lead().name }}</span>
+                    </dd>
                 </div>
+                <!-- Correo -->
+                <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Correo Electrónico</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <input *ngIf="isEditing()" [(ngModel)]="editForm().email"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm">
+                        <span *ngIf="!isEditing()">{{ lead().email }}</span>
+                    </dd>
+                </div>
+                <!-- Teléfono -->
+                <div class="bg-white dark:bg-slate-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Teléfono</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <input *ngIf="isEditing()" [(ngModel)]="editForm().phone"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm">
+                        <span *ngIf="!isEditing()">{{ lead().phone || 'No proporcionado' }}</span>
+                    </dd>
+                </div>
+                <!-- Industria -->
                 <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Industria</dt>
-                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">{{ lead().industry }}
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <input *ngIf="isEditing()" [(ngModel)]="editForm().industry"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm">
+                        <span *ngIf="!isEditing()">{{ lead().industry }}</span>
                     </dd>
                 </div>
                 <div class="bg-white dark:bg-slate-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Origen</dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                            {{ lead().source || 'Directo' }}
+                        </span>
+                    </dd>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Mensaje / Requerimientos</dt>
-                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2 whitespace-pre-wrap">{{
-                        lead().message || 'Sin mensaje' }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2 whitespace-pre-wrap">
+                        <textarea *ngIf="isEditing()" [(ngModel)]="editForm().message"
+                            class="w-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm"
+                            rows="4"></textarea>
+                        <span *ngIf="!isEditing()">{{ lead().message || 'Sin mensaje' }}</span>
+                    </dd>
                 </div>
             </dl>
         </div>

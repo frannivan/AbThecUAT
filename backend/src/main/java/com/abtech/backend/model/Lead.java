@@ -18,11 +18,12 @@ public class Lead {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
-    @Email
+    private String fullName;
+
+    private String phone;
+
     private String email;
 
     private String message;
@@ -42,6 +43,19 @@ public class Lead {
 
     public Lead(String name, String email, String message, String industry, String source) {
         this.name = name;
+        this.fullName = name;
+        this.email = email;
+        this.message = message;
+        this.industry = industry;
+        this.source = source;
+        this.status = ELeadStatus.NEW;
+    }
+
+    public Lead(String name, String fullName, String phone, String email, String message, String industry,
+            String source) {
+        this.name = name;
+        this.fullName = fullName;
+        this.phone = phone;
         this.email = email;
         this.message = message;
         this.industry = industry;

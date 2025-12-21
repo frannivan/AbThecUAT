@@ -114,4 +114,14 @@ public class AdminController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/leads/{id}")
+    public ResponseEntity<Lead> updateLead(@PathVariable Long id, @RequestBody Lead leadDetails) {
+        try {
+            Lead updated = leadService.updateLead(id, leadDetails);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

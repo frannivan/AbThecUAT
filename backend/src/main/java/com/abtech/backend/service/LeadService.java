@@ -29,10 +29,13 @@ public class LeadService {
         try {
             emailService.sendEmail(
                     "admin@abtech.com",
-                    "Nuevo Lead: " + saved.getName(),
+                    "Nuevo Lead: " + (saved.getFullName() != null ? saved.getFullName() : saved.getName()),
                     "Has recibido un nuevo lead desde la web.\n\n" +
-                            "Nombre: " + saved.getName() + "\n" +
+                            "Nombre Completo: " + (saved.getFullName() != null ? saved.getFullName() : saved.getName())
+                            + "\n" +
                             "Email: " + saved.getEmail() + "\n" +
+                            "Teléfono: " + (saved.getPhone() != null ? saved.getPhone() : "No proporcionado") + "\n" +
+                            "Origen: " + (saved.getSource() != null ? saved.getSource() : "Desconocido") + "\n" +
                             "Mensaje: " + saved.getMessage());
         } catch (Exception e) {
             System.err.println("Error sending notification: " + e.getMessage());
@@ -54,9 +57,9 @@ public class LeadService {
         // If status is changed to CONVERTED and it wasn't already, create a client
         if (status == ELeadStatus.CONVERTED && lead.getStatus() != ELeadStatus.CONVERTED) {
             Client client = new Client(
-                    lead.getName(),
+                    lead.getFullName() != null ? lead.getFullName() : lead.getName(),
                     lead.getEmail(),
-                    null,
+                    lead.getPhone(),
                     lead.getIndustry());
             clientService.saveClient(client);
         }
@@ -86,5 +89,22 @@ public class LeadService {
         List<Lead> all = leadRepository.findAll();
         all.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
         return all.stream().limit(limit).collect(java.util.stream.Collectors.toList());
+    }
+
+    public Lead updateLead(Long id, Lead details) {
+        Lead lead = leadRepository.findById(id).orElseThrow(() -> new RuntimeException("Lead not found"));
+        if (details.getName() != null)
+            lead.setName(details.getName());
+        if (details.getFullName() != null)
+            lead.setFullName(details.getFullName());
+        if (details.getEmail() != null)
+            lead.setEmail(details.getEmail());
+        if (details.getPhone() != null)
+            lead.setPhone(details.getPhone());
+        if (details.getIndustry() != null)
+            lead.setIndustry(details.getIndustry());
+        if (details.getMessage() != null)
+            lead.setMessage(details.getMessage());
+        return leadRepository.save(lead);
     }
 }

@@ -1,0 +1,37 @@
+.interactive-grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    /* Bigger cells (12x12) */
+    grid-template-rows: repeat(12, 1fr);
+    gap: 2px;
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #0f172a;
+    /* Slate-900 base */
+    background-image: url('/assets/images/hero_tech.png');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+        inset 0 0 60px rgba(0, 0, 0, 0.5),
+        0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.grid-cell {
+    background-color: #475569;
+    /* SLATE-600 (Darker Gray) as requested */
+    width: 100%;
+    height: 100%;
+    /* Transition back to solid color - 7s duration to return to origin color */
+    transition: background-color 15s ease-out, opacity 15s ease-out;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    cursor: crosshair;
+}
+
+.grid-cell:hover {
+    /* Fast reaction when mouse enters */
+    transition: background-color 0s, opacity 0s;
+}

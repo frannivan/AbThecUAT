@@ -5,17 +5,77 @@
         </a>
         <div class="flex md:order-2 items-center">
             <!-- Language Switcher -->
-            <div class="flex items-center mr-4 space-x-2">
-                <button (click)="switchLanguage('es')" [class.opacity-50]="currentLang !== 'es'"
-                    class="w-6 h-6 rounded-full overflow-hidden border border-gray-200 hover:opacity-100 transition-opacity"
-                    title="Español">
-                    <img src="https://flagcdn.com/w40/mx.png" alt="Español" class="w-full h-full object-cover">
-                </button>
-                <button (click)="switchLanguage('en')" [class.opacity-50]="currentLang !== 'en'"
-                    class="w-6 h-6 rounded-full overflow-hidden border border-gray-200 hover:opacity-100 transition-opacity"
-                    title="English">
-                    <img src="https://flagcdn.com/w40/us.png" alt="English" class="w-full h-full object-cover">
-                </button>
+            <!-- Selectors Container -->
+            <div class="flex items-center space-x-4">
+
+                <!-- Custom Theme Selector -->
+                <div class="relative" (mouseleave)="delayedCloseDropdown()" (mouseenter)="cancelCloseDropdown()">
+                    <button (click)="toggleDropdown('theme')"
+                        class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-200 dark:hover:bg-slate-700 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i *ngIf="currentTheme === 'light'" class="fas fa-sun text-yellow-500"></i>
+                            <i *ngIf="currentTheme === 'dark'" class="fas fa-moon text-blue-400"></i>
+                            <i *ngIf="currentTheme === 'auto'" class="fas fa-cog text-gray-500 dark:text-gray-400"></i>
+                            <span class="uppercase">{{ currentTheme }}</span>
+                        </span>
+                        <i class="fas fa-chevron-down text-[10px] ml-1 opacity-70"></i>
+                    </button>
+
+                    <!-- Dropdown Panel -->
+                    <div *ngIf="activeDropdown === 'theme'" (mouseenter)="cancelCloseDropdown()"
+                        class="absolute right-0 mt-2 w-32 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-lg shadow-xl z-50 py-1 animate-in fade-in slide-in-from-top-2 duration-200">
+                        <button (click)="setTheme('light'); toggleDropdown('theme')"
+                            class="w-full text-left px-4 py-2 text-xs flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-gray-200">
+                            <i class="fas fa-sun text-yellow-500 w-4"></i> Light
+                        </button>
+                        <button (click)="setTheme('dark'); toggleDropdown('theme')"
+                            class="w-full text-left px-4 py-2 text-xs flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-gray-200">
+                            <i class="fas fa-moon text-blue-400 w-4"></i> Dark
+                        </button>
+                        <button (click)="setTheme('auto'); toggleDropdown('theme')"
+                            class="w-full text-left px-4 py-2 text-xs flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-gray-200">
+                            <i class="fas fa-cog text-gray-500 w-4"></i> Auto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Custom Language Selector: Reverted to Buttons style -->
+                <!-- Dropped 'relative' container hover logic since buttons are direct actions, 
+                     but if we want to restore dropdown logic for lang, we need the dropdown structure back.
+                     Wait, the user previous step reverted to buttons. 
+                     Checking recent context: Just 2 steps ago 'reverted to buttons'.
+                     BUT the user complaint implies interaction difficulty with a 'combobox' closing fast.
+                     This means the user likely accepted the 'Combobox with local flags' restoration in step 1073/1082 BEFORE the revert in 1033??
+                     Ah, Step 1033 reverted to buttons. Step 1044 requested 'combobox like before but with local images'.
+                     Step 1073 RESTORED the dropdown.
+                     So we ARE using dropdowns now.
+                     My previous view_file (implicit context) suggests we are using dropdown structure.
+                     Let me verify the target content match.
+                  -->
+                <div class="relative" (mouseleave)="delayedCloseDropdown()" (mouseenter)="cancelCloseDropdown()">
+                    <button (click)="toggleDropdown('lang')"
+                        class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-200 dark:hover:bg-slate-700 transition-colors">
+                        <img [src]="getFlagUrl(currentLang)" alt="Flag"
+                            class="w-5 h-3.5 object-cover rounded shadow-sm">
+                        <span class="uppercase">{{ currentLang }}</span>
+                        <i class="fas fa-chevron-down text-[10px] ml-1 opacity-70"></i>
+                    </button>
+
+                    <!-- Dropdown Panel -->
+                    <div *ngIf="activeDropdown === 'lang'" (mouseenter)="cancelCloseDropdown()"
+                        class="absolute right-0 mt-2 w-32 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-lg shadow-xl z-50 py-1 animate-in fade-in slide-in-from-top-2 duration-200">
+                        <button (click)="switchLanguage('es')"
+                            class="w-full text-left px-4 py-2 text-xs flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-gray-200">
+                            <img src="/assets/images/flags/mx.png" class="w-5 h-3.5 object-cover rounded shadow-sm">
+                            Spanish
+                        </button>
+                        <button (click)="switchLanguage('en')"
+                            class="w-full text-left px-4 py-2 text-xs flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-gray-200">
+                            <img src="/assets/images/flags/gb.png" class="w-5 h-3.5 object-cover rounded shadow-sm">
+                            English
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <a routerLink="/login"

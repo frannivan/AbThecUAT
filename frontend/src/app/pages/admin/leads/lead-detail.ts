@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../../services/admin';
 
 @Component({
     selector: 'app-lead-detail',
     standalone: true,
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule, RouterLink, FormsModule],
     templateUrl: './lead-detail.html'
 })
 export class LeadDetail implements OnInit {
@@ -15,6 +16,8 @@ export class LeadDetail implements OnInit {
 
     lead = signal<any>(null);
     isLoading = signal<boolean>(true);
+    isEditing = signal<boolean>(false);
+    editForm = signal<any>({});
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
@@ -28,11 +31,36 @@ export class LeadDetail implements OnInit {
         this.adminService.getLeadById(id).subscribe({
             next: (data) => {
                 this.lead.set(data);
+                this.editForm.set({ ...data });
                 this.isLoading.set(false);
             },
             error: (err) => {
                 console.error('Error loading lead', err);
                 this.isLoading.set(false);
+            }
+        });
+    }
+
+    toggleEdit() {
+        this.isEditing.set(!this.isEditing());
+        if (!this.isEditing()) {
+            this.editForm.set({ ...this.lead() });
+        }
+    }
+
+    saveChanges() {
+        this.isLoading.set(true);
+        this.adminService.updateLead(this.lead().id, this.editForm()).subscribe({
+            next: (updated) => {
+                this.lead.set(updated);
+                this.isEditing.set(false);
+                this.isLoading.set(false);
+                alert('Lead actualizado exitosamente.');
+            },
+            error: (err) => {
+                console.error('Error updating lead', err);
+                this.isLoading.set(false);
+                alert('Error al actualizar el lead.');
             }
         });
     }

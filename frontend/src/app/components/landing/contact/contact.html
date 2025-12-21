@@ -6,19 +6,37 @@
             'CONTACT.SUBTITLE' | translate }}</p>
 
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-8">
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                    'CONTACT.NAME' | translate }}</label>
-                <input formControlName="name" type="text" id="name"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
-                    placeholder="Tu Nombre">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Apodo /
+                        Empresa</label>
+                    <input formControlName="name" type="text" id="name"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                        placeholder="Ej: AbTech">
+                </div>
+                <div>
+                    <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nombre
+                        Completo</label>
+                    <input formControlName="fullName" type="text" id="fullName"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                        placeholder="Juan Pérez">
+                </div>
             </div>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
-                    'CONTACT.EMAIL' | translate }}</label>
-                <input formControlName="email" type="email" id="email"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
-                    placeholder="name@empresa.com">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
+                        'CONTACT.EMAIL' | translate }}</label>
+                    <input formControlName="email" type="email" id="email"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                        placeholder="name@empresa.com">
+                </div>
+                <div>
+                    <label for="phone"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Teléfono</label>
+                    <input formControlName="phone" type="tel" id="phone"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-abtech-blue focus:border-abtech-blue block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:shadow-sm-light"
+                        placeholder="+52 123 456 7890">
+                </div>
             </div>
             <div>
                 <label for="industry" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
