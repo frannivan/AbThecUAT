@@ -15,20 +15,12 @@ public class PublicController {
     private LeadService leadService;
 
     @PostMapping("/contact")
-    public ResponseEntity<?> submitContactForm(
-            @RequestBody Lead leadRequest,
-            @RequestHeader(value = "X-App-ID", required = false) String appId) {
-
+    public ResponseEntity<?> submitContactForm(@RequestBody Lead leadRequest) {
         // Enforce source if missing
         if (leadRequest.getSource() == null) {
             leadRequest.setSource("WEB_FORM");
         }
-
-        // If appId is null, we might want to assign a default 'unknown' or just leave
-        // it null
-        // Ideally frontend always sends it.
-
-        Lead savedLead = leadService.createLead(leadRequest, appId);
+        Lead savedLead = leadService.createLead(leadRequest);
         return ResponseEntity.ok(savedLead);
     }
 }

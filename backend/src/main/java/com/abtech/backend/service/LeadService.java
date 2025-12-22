@@ -21,12 +21,9 @@ public class LeadService {
     @Autowired
     private EmailService emailService;
 
-    public Lead createLead(Lead lead, String appId) {
+    public Lead createLead(Lead lead) {
         if (lead.getStatus() == null) {
             lead.setStatus(ELeadStatus.NEW);
-        }
-        if (appId != null) {
-            lead.setAppId(appId);
         }
         Lead saved = leadRepository.save(lead);
         try {
@@ -39,7 +36,6 @@ public class LeadService {
                             "Email: " + saved.getEmail() + "\n" +
                             "Teléfono: " + (saved.getPhone() != null ? saved.getPhone() : "No proporcionado") + "\n" +
                             "Origen: " + (saved.getSource() != null ? saved.getSource() : "Desconocido") + "\n" +
-                            "App ID: " + saved.getAppId() + "\n" +
                             "Mensaje: " + saved.getMessage());
         } catch (Exception e) {
             System.err.println("Error sending notification: " + e.getMessage());
@@ -47,18 +43,6 @@ public class LeadService {
         return saved;
     }
 
-    // Fallback for existing calls if any (null appId)
-    public Lead createLead(Lead lead) {
-        return createLead(lead, null);
-    }
-
-    public List<Lead> getAllLeads(String appId) {
-        if (appId == null)
-            return leadRepository.findAll();
-        return leadRepository.findByAppId(appId);
-    }
-
-    // Legacy support
     public List<Lead> getAllLeads() {
         return leadRepository.findAll();
     }
@@ -84,29 +68,25 @@ public class LeadService {
         return leadRepository.save(lead);
     }
 
-    public long countLeads(String appId) {
-        if (appId == null)
-            return leadRepository.count();
-        return leadRepository.countByAppId(appId);
+    public long countLeads() {
+        return leadRepository.count();
     }
 
-    public long countNewLeads(String appId) {
-        List<Lead> leads = (appId == null) ? leadRepository.findAll() : leadRepository.findByAppId(appId);
-        return leads.stream().filter(l -> l.getStatus() == ELeadStatus.NEW).count();
+    public long countNewLeads() {
+        return leadRepository.findAll().stream().filter(l -> l.getStatus() == ELeadStatus.NEW).count();
     }
 
-    public long countQualifiedLeads(String appId) {
-        List<Lead> leads = (appId == null) ? leadRepository.findAll() : leadRepository.findByAppId(appId);
-        return leads.stream().filter(l -> l.getStatus() == ELeadStatus.QUALIFIED).count();
+    public long countQualifiedLeads() {
+        return leadRepository.findAll().stream().filter(l -> l.getStatus() == ELeadStatus.QUALIFIED).count();
     }
 
     public Lead saveLead(Lead lead) {
         return leadRepository.save(lead);
     }
 
-    public List<Lead> getRecentLeads(int limit, String appId) {
-        List<Lead> all = (appId == null) ? leadRepository.findAll() : leadRepository.findByAppId(appId);
-
+    public List<Lead> getRecentLeads(int limit) {
+        // Simple manual limiting for now, or could use Pageable
+        List<Lead> all = leadRepository.findAll();
         // Safe sort handling nulls
         all.sort((a, b) -> {
             if (a.getCreatedAt() == null && b.getCreatedAt() == null)
