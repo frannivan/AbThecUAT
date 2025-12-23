@@ -45,16 +45,38 @@ public class AdminController {
 
     @GetMapping("/leads/recent")
     public List<Lead> getRecentLeads() {
-        return leadService.getRecentLeads(5);
+        try {
+            System.out.println(">>> DEBUG: Requesting Recent Leads...");
+            return leadService.getRecentLeads(5);
+        } catch (Exception e) {
+            System.err.println(">>> ERROR in getRecentLeads: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @GetMapping("/dashboard/stats")
     public ResponseEntity<?> getDashboardStats() {
-        long totalLeads = leadService.countLeads();
-        long newLeads = leadService.countNewLeads();
-        long opportunities = leadService.countQualifiedLeads();
-        long totalClients = clientService.countClients();
-        return ResponseEntity.ok(new DashboardStats(totalLeads, newLeads, opportunities, totalClients));
+        try {
+            System.out.println(">>> DEBUG: Computing Dashboard Stats...");
+            long totalLeads = leadService.countLeads();
+            System.out.println(">>> DEBUG: Total Leads: " + totalLeads);
+
+            long newLeads = leadService.countNewLeads();
+            System.out.println(">>> DEBUG: New Leads: " + newLeads);
+
+            long opportunities = leadService.countQualifiedLeads();
+            System.out.println(">>> DEBUG: Opportunities: " + opportunities);
+
+            long totalClients = clientService.countClients();
+            System.out.println(">>> DEBUG: Total Clients: " + totalClients);
+
+            return ResponseEntity.ok(new DashboardStats(totalLeads, newLeads, opportunities, totalClients));
+        } catch (Exception e) {
+            System.err.println(">>> ERROR in getDashboardStats: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // Clients Endpoints

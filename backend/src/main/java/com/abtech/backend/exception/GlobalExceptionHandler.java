@@ -15,16 +15,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
+        System.err.println(">>> CRITICAL EXCEPTION CAUGHT IN GLOBAL HANDLER: " + ex.getMessage());
+        ex.printStackTrace();
+
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", ex.getMessage());
-        body.put("details", request.getDescription(false));
-        // Include stack trace cause if available for deeper debugging
+        try {
+            body.put("details", request.getDescription(false));
+        } catch (Exception e) {
+            body.put("details", "Could not get request details");
+        }
+
         if (ex.getCause() != null) {
             body.put("cause", ex.getCause().getMessage());
         }
-
-        ex.printStackTrace(); // Print to backend console as well
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
