@@ -1,9 +1,10 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideHttpClient, withFetch, HttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch, HttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { routes } from './app.routes';
+import { tenantInterceptor } from './core/interceptors/tenant.interceptor';
 
 // Custom Loader to avoid library version conflicts and ensure HttpClient usage
 export class CustomTranslateLoader implements TranslateLoader {
@@ -25,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'enabled'
     })),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([tenantInterceptor])),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
