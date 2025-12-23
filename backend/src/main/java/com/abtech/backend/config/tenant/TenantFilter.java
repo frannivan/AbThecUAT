@@ -23,7 +23,7 @@ public class TenantFilter implements Filter {
         // one
         // For security, if multi-tenant, maybe default to "public" or similar.
         // FORCE PUBLIC for Neon/Single-App deployment
-        tenantHelper = "PUBLIC";
+        tenantHelper = "public";
 
         // if (tenantHelper == null) {
         // tenantHelper = "PUBLIC";
