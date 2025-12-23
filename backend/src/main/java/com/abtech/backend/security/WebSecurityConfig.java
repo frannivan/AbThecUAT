@@ -51,6 +51,9 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private com.abtech.backend.config.tenant.TenantFilter tenantFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -67,6 +70,7 @@ public class WebSecurityConfig {
         http.headers().frameOptions().sameOrigin();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

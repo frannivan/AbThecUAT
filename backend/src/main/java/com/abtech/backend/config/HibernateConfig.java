@@ -38,6 +38,10 @@ public class HibernateConfig {
 
         Map<String, Object> properties = new HashMap<>(jpaProperties.getProperties());
 
+        if (jpaProperties.getDatabasePlatform() != null) {
+            properties.put(Environment.DIALECT, jpaProperties.getDatabasePlatform());
+        }
+
         // Multi-tenancy configuration
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantProvider);

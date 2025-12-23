@@ -39,9 +39,11 @@ public class Lead {
     private String notes;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     public Lead(String name, String email, String message, String industry, String source) {

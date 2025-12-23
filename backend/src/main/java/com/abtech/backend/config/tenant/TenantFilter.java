@@ -22,9 +22,12 @@ public class TenantFilter implements Filter {
         // If header is missing, maybe fallback to default schema (public) or specific
         // one
         // For security, if multi-tenant, maybe default to "public" or similar.
-        if (tenantHelper == null) {
-            tenantHelper = "public";
-        }
+        // FORCE PUBLIC for Neon/Single-App deployment
+        tenantHelper = "PUBLIC";
+
+        // if (tenantHelper == null) {
+        // tenantHelper = "PUBLIC";
+        // }
 
         try {
             TenantContext.setCurrentTenant(tenantHelper);

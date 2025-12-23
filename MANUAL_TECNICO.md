@@ -118,3 +118,29 @@ Para ejecutar el backend con un perfil específico (por ejemplo, para conectar a
    npm install
    ng serve
    ```
+
+## Multi-tenancy (Arquitectura de Esquemas)
+
+Para soportar múltiples demos (tenants) con un único backend, se implementó una estrategia de **Schemas Separados** en PostgreSQL.
+
+### 1. Concepto
+Cada aplicación (Demo) tiene su propio esquema en la base de datos (ej. `public`, `barberia`, `canchita`). El backend decide dinámicamente a qué esquema conectarse basándose en el header HTTP `X-Tenant-ID`.
+
+### 2. Archivos Clave Modificados/Creados
+La lógica se encuentra en el paquete `com.abtech.backend.config.tenant`:
+
+*   **`TenantContext.java`**: Usa `ThreadLocal` para guardar el ID del tenant actual durante el ciclo de vida de la petición HTTP.
+*   **`TenantFilter.java`**: Intercepta todas las peticiones, extrae el header `X-Tenant-ID` y lo guarda en el `TenantContext`.
+*   **`SchemaResolver.java`**: Clase de Hibernate (`CurrentTenantIdentifierResolver`) que lee cual es el tenant activo desde el contexto.
+*   **`MultiTenantProvider.java`**: Clase de Hibernate (`MultiTenantConnectionProvider`) que ejecuta `SET SEARCH_PATH TO <schema>` en la conexión JDBC antes de cualquier consulta.
+*   **`HibernateConfig.java`**: Configuración manual de la `LocalContainerEntityManagerFactoryBean` para activar estas estrategias en lugar de usar la autoconfiguración por defecto de Spring Boot.
+
+### 3. Configuración para Nuevos Demos
+1.  **Base de Datos**: Crear manualmente el esquema en Neon/Postgres:
+    ```sql
+    CREATE SCHEMA nombre_demo;
+    ```
+2.  **Frontend**: Asegurarse de enviar el header en las peticiones:
+    ```javascript
+    headers.set('X-Tenant-ID', 'nombre_demo');
+    ```

@@ -42,7 +42,7 @@ public class MultiTenantProvider implements MultiTenantConnectionProvider {
     @Override
     public void releaseConnection(String tenantIdentifier, Connection connection) throws SQLException {
         try {
-            connection.setSchema("public");
+            connection.setSchema("PUBLIC");
         } catch (SQLException e) {
             // Ignore, closing anyway
         }

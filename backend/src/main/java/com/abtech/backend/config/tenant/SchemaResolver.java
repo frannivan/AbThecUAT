@@ -12,7 +12,7 @@ public class SchemaResolver implements CurrentTenantIdentifierResolver {
         if (tenant != null) {
             return tenant;
         }
-        return "public"; // Default schema
+        return "PUBLIC"; // Default schema
     }
 
     @Override
