@@ -26,6 +26,7 @@ public class Client {
     @Enumerated(EnumType.STRING)
     private EClientStatus status = EClientStatus.ACTIVE;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public Client(String name, String email, String phone, String company) {

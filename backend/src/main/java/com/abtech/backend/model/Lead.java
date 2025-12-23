@@ -20,6 +20,7 @@ public class Lead {
 
     private String name;
 
+    @Column(name = "full_name")
     private String fullName;
 
     private String phone;
