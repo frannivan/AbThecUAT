@@ -13,21 +13,21 @@ export class AdminService {
 
     private getHeaders() {
         const token = this.authService.getToken();
-        console.log('>>> [AdminService] Getting headers. Token exists:', !!token);
+
         return new HttpHeaders({
             'Authorization': `Bearer ${token}`
         });
     }
 
     getDashboardStats(): Observable<any> {
-        console.log('>>> [AdminService] Fetching dashboard stats...');
+
         return this.http.get(`${this.apiUrl}/dashboard/stats`, { headers: this.getHeaders() });
     }
 
     getAllLeads(): Observable<any[]> {
         console.warn('!!! [AdminService] FETCHING ALL LEADS NOW !!!');
         const headers = this.getHeaders();
-        console.log('!!! [AdminService] Headers being used:', headers);
+
         return this.http.get<any[]>(`${this.apiUrl}/leads`, { headers });
     }
 
@@ -62,5 +62,22 @@ export class AdminService {
 
     getRecentLeads(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/leads/recent`, { headers: this.getHeaders() });
+    }
+    // User Management Methods
+    getAllUsers(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/users`, { headers: this.getHeaders() });
+    }
+
+    createUser(user: any): Observable<any> {
+        // Uses the AuthController endpoint but authenticated as Admin
+        return this.http.post<any>('/api/auth/signup', user, { headers: this.getHeaders() });
+    }
+
+    updateUser(id: number, user: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/users/${id}`, user, { headers: this.getHeaders() });
+    }
+
+    deleteUser(id: number): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/users/${id}`, { headers: this.getHeaders() });
     }
 }

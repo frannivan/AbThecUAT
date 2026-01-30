@@ -23,6 +23,7 @@ export const routes: Routes = [
             { path: 'leads/:id', component: LeadDetail },
             { path: 'clients', component: Clients },
             { path: 'clients/:id', component: ClientDetail },
+            { path: 'users', loadComponent: () => import('./pages/admin/users/users.component').then(m => m.AdminUsersComponent) },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     }

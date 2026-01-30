@@ -10,7 +10,7 @@ import { tenantInterceptor } from './core/interceptors/tenant.interceptor';
 export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) { }
   getTranslation(lang: string): Observable<any> {
-    console.log(`[TranslateLoader] Loading: /assets/i18n/${lang}.json`);
+
     return this.http.get(`/assets/i18n/${lang}.json`);
   }
 }

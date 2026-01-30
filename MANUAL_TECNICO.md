@@ -144,3 +144,24 @@ La lógica se encuentra en el paquete `com.abtech.backend.config.tenant`:
     ```javascript
     headers.set('X-Tenant-ID', 'nombre_demo');
     ```
+
+## Solución de Problemas (Troubleshooting)
+
+### Autenticación (Error 401 / Bad Credentials)
+
+#### Síntoma
+Al intentar iniciar sesión con un usuario pre-configurado (ej. `admin`), el sistema devuelve `401 Unauthorized` con el mensaje "Bad credentials", incluso si la contraseña parece correcta visualmente.
+
+#### Causa
+Spring Security requiere que las contraseñas almacenadas en la base de datos estén **hasheadas** (usando BCrypt), nunca en texto plano.
+*   Si se inserta en `data.sql`: `'123456'` (Texto Plano) -> **Error**. El sistema compara `Hash('123456')` contra `'123456'`, lo cual falla.
+*   Si se inserta en `data.sql`: `'$2a$10$...'` (BCrypt Hash) -> **Correcto**.
+
+#### Solución Aplicada
+Se corrigió el script `src/main/resources/data.sql` para usar un hash BCrypt válido para la contraseña `123456`.
+
+**Procedimiento para generar nuevos usuarios:**
+Nunca insertar passwords planos. Usar un generador BCrypt (online o vía test de Java) para obtener el string que empieza con `$2a$`.
+
+#### Nota sobre Init Data
+Durante el desarrollo, hubo confusión entre métodos de carga (Java `CommandLineRunner` vs SQL `data.sql`). Se estandarizó el uso de **`src/main/resources/data.sql`** como la única fuente de verdad para datos iniciales, eliminando clases Java redundantes como `DataInitializer` para mantener el código limpio.

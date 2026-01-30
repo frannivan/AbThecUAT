@@ -33,10 +33,10 @@ export class Leads implements OnInit {
 
     loadLeads() {
         this.isLoading.set(true);
-        console.log('>>> [LeadsComponent] Loading leads...');
+
         this.adminService.getAllLeads().subscribe({
             next: (data) => {
-                console.log('>>> [LeadsComponent] Leads received:', data);
+
                 this.leads.set(data || []);
                 this.isLoading.set(false);
             },
@@ -66,7 +66,7 @@ export class Leads implements OnInit {
         this.adminService.updateLeadStatus(lead.id, newStatus).subscribe({
             next: (updatedLead) => {
                 lead.status = updatedLead.status;
-                console.log('Lead status updated:', updatedLead);
+
             },
             error: (err) => {
                 console.error('Error updating status', err);

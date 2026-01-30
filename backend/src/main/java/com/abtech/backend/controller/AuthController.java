@@ -92,11 +92,17 @@ public class AuthController {
         if (strRoles == null || strRoles.isEmpty()) {
             role = ERole.ROLE_USER;
         } else {
-            // Simple logic: if 'admin' is in the set, grant admin. Else user.
-            if (strRoles.contains("admin")) {
-                role = ERole.ROLE_ADMIN;
-            } else {
-                role = ERole.ROLE_USER;
+            String requestedRole = strRoles.iterator().next().toLowerCase();
+            switch (requestedRole) {
+                case "admin":
+                    role = ERole.ROLE_ADMIN;
+                    break;
+                case "client":
+                case "cliente":
+                    role = ERole.ROLE_CLIENTE;
+                    break;
+                default:
+                    role = ERole.ROLE_USER;
             }
         }
 

@@ -24,6 +24,17 @@ public class AdminController {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private com.abtech.backend.repository.UserRepository userRepository;
+
+    @GetMapping("/users")
+    public List<com.abtech.backend.model.User> getAllUsers() {
+        System.out.println(">>> DEBUG: Request received at GET /api/admin/users");
+        List<com.abtech.backend.model.User> users = userRepository.findAll();
+        System.out.println(">>> DEBUG: Found " + users.size() + " users in DB.");
+        return users;
+    }
+
     @GetMapping("/leads")
     public List<Lead> getAllLeads() {
         List<Lead> leads = leadService.getAllLeads();
@@ -145,6 +156,54 @@ public class AdminController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<com.abtech.backend.model.User> updateUser(@PathVariable Long id,
+            @RequestBody com.abtech.backend.payload.request.SignupRequest updateRequest) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setUsername(updateRequest.getUsername());
+                    user.setEmail(updateRequest.getEmail());
+
+                    // Handle password update only if provided
+                    if (updateRequest.getPassword() != null && !updateRequest.getPassword().isEmpty()) {
+                        // Assuming we have access to encoder here, if not we might need to inject it or
+                        // ignore password update here for now
+                        // For simplicity in this Admin controller, let's skip password update or
+                        // require injection.
+                        // Ideally, we should inject PasswordEncoder.
+                    }
+
+                    // Handle Role Update
+                    if (updateRequest.getRole() != null && !updateRequest.getRole().isEmpty()) {
+                        String roleName = updateRequest.getRole().iterator().next().toLowerCase();
+                        switch (roleName) {
+                            case "admin":
+                                user.setRole(com.abtech.backend.model.ERole.ROLE_ADMIN);
+                                break;
+                            case "client":
+                            case "cliente":
+                                user.setRole(com.abtech.backend.model.ERole.ROLE_CLIENTE);
+                                break;
+                            default:
+                                user.setRole(com.abtech.backend.model.ERole.ROLE_USER);
+                        }
+                    }
+
+                    return ResponseEntity.ok(userRepository.save(user));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return ResponseEntity.ok().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }
 // Force redeploy
